@@ -9,9 +9,8 @@ import FirebaseFirestore
 class FirebaseService{
     
     static let shared =  FirebaseService()
-    
+    let db = Firestore.firestore()
     init(){}
-    
     
     func SingUpWithEmail(email: String, password: String, completion: @escaping(Bool, String)->Void){
         Auth.auth().createUser(withEmail: email, password: password){(res, err) in
@@ -22,12 +21,11 @@ class FirebaseService{
             let userId = res?.user.uid
             let email_ = res?.user.email
             let data: [String: Any] = ["email": email_!]
-            Firestore.firestore().collection("users").document(userId!).setData(data)
+            self.db.collection("users").document(userId!).setData(data)
             UserDefaults.standard.set(true, forKey: "isLogin")
             completion(true,(res?.user.email)!)
         }
     }
-    
     func signInWithEmail(email: String, password: String, completion: @escaping (Bool, String) -> Void) {
         Auth.auth().signIn(withEmail: email, password: password) { (result, error) in
             if let error = error {
@@ -37,7 +35,6 @@ class FirebaseService{
             }
         }
     }
-    
     func confrimEmail(){
         Auth.auth().currentUser?.sendEmailVerification(completion: {err in
             if err != nil{
@@ -49,16 +46,16 @@ class FirebaseService{
     func getAllUsers(completion: @escaping ([User])->()){
         guard let email = Auth.auth().currentUser?.email else {return}
         var users = [User]()
-        Firestore.firestore().collection("users").whereField("email", isNotEqualTo: email).getDocuments {snap, err in
+        db.collection("users").whereField("email", isNotEqualTo: email).getDocuments {snap, err in
             if err ==  nil{
                 if let docs = snap?.documents{
                     for doc in docs{
                         let data = doc.data()
                         let userId = doc.documentID
-                        let email = data["email"] as! String
+                        guard let email = data["email"] as? String else {continue}
                         if let photoURL = data["photoURL"] as? String {
                             users.append(User(senderId: userId, email: email, profileImageURL: photoURL))
-                            break
+                            continue
                         }
                         users.append(User(senderId: userId, email: email))
                     }
@@ -67,6 +64,46 @@ class FirebaseService{
             }
         }
     }
+    
+    func getUser(uid: String, completion: @escaping (User)->()){
+        if let uid = Auth.auth().currentUser?.uid {
+            db.collection("users").document(uid).getDocument { (document, error) in
+                if let data = document?.data(){
+                    guard let email = data["email"] as? String else {return}
+                    guard let name = data["name"] as? String else {return}
+                    guard let photoURL = data["photoURL"] as? String else {return}
+                    guard let messageColor = data["messageColor"] as? String else {return}
+                    
+                    completion(User(senderId: uid, email: email, displayName: name, profileImageURL: photoURL, messageColor: messageColor))
+                }
+            }
+        }
+    }
+    
+    
+    func getAllMessage(chatId: String,  completion: @escaping ([Message])->()){
+        if (Auth.auth().currentUser?.uid) != nil {
+            db.collection("conversations/" + chatId + "/messages").order(by: "date", descending: false).addSnapshotListener { (snapshot, error) in
+                guard let messagesDocuments = snapshot?.documents else {return}
+                
+                var msgs = [Message]()
+                for doc in messagesDocuments{
+                    let data = doc.data()
+                    guard let text = data["text"] as? String else {continue}
+                    guard let senderId = data["sender"] as? String else {continue}
+                    let date = data["date"] as! Timestamp
+                    let sentDate = date.dateValue()
+                    let messageId = doc.documentID
+                    
+                    let sender = User(senderId: senderId, email: "")
+                    msgs.append(Message(sender: sender, messageId: messageId, sentDate: sentDate, message: text))
+                }
+                completion(msgs)
+            }
+        }
+    }
+    
+    
     
     func sendMessage(otherId: String?, convoId: String?, text: String, completion: @escaping (String)->()){
         if let uid = Auth.auth().currentUser?.uid{
@@ -80,8 +117,8 @@ class FirebaseService{
                     "date": Date(),
                     "otherId": uid
                 ]
-                Firestore.firestore().collection("users").document(uid).collection("conversations").document(convoId).setData(selfData)
-                Firestore.firestore().collection("users").document(otherId!).collection("conversations").document(convoId).setData(otherData)
+                db.collection("users").document(uid).collection("conversations").document(convoId).setData(selfData)
+                db.collection("users").document(otherId!).collection("conversations").document(convoId).setData(otherData)
                 
                 let msg: [String: Any] = [
                     "date": Date(),
@@ -95,11 +132,11 @@ class FirebaseService{
                     "otherSender": otherId!
                 ]
                 
-                Firestore.firestore().collection("conversations").document(convoId).setData(convoInfo) { err in
+                db.collection("conversations").document(convoId).setData(convoInfo) { err in
                     if let err = err{
                         print(err.localizedDescription)
                     }
-                    Firestore.firestore().collection("conversations").document(convoId).collection("messages").addDocument(data: msg){ err in
+                    self.db.collection("conversations").document(convoId).collection("messages").addDocument(data: msg){ err in
                         if err == nil{
                             completion(convoId)
                         }
@@ -113,7 +150,7 @@ class FirebaseService{
                     "text": text
                 ]
                 
-                Firestore.firestore().collection("conversations").document(convoId!).collection("messages").addDocument(data: msg) { err in
+                db.collection("conversations").document(convoId!).collection("messages").addDocument(data: msg) { err in
                     if err == nil{
                         completion(convoId!)
                     }
@@ -121,10 +158,34 @@ class FirebaseService{
             }
         }
     }
+    func sendMessageWithPhoto(convoId: String, senderUid: String, image: UIImage, completion: @escaping (Result<Void, Error>) -> Void) {
+        uploadImageToFirebase(image: image) { result in
+            switch result {
+            case .success(let url):
+                let msg: [String: Any] = [
+                    "date": Date(),
+                    "sender": senderUid,
+                    "photoURL": url.absoluteString
+                ]
+                self.db.collection("conversations").document(convoId).collection("messages").addDocument(data: msg) { err in
+                    if let err = err {
+                        print("error")
+                        completion(.failure(err))
+                    } else {
+                        print("ok")
+                        completion(.success(()))
+                    }
+                }
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+    
     
     func getConvoId(otherId: String, completion: @escaping (String)->()){
         if let uid = Auth.auth().currentUser?.uid{
-            let ref = Firestore.firestore()
+            let ref = db
             ref.collection("users").document(uid).collection("conversations").whereField("otherId", isEqualTo: otherId).getDocuments { snap, err in
                 if err != nil {
                     return
@@ -165,32 +226,6 @@ class FirebaseService{
             }
         }
     }
-    
-    
-    func sendMessageWithPhoto(convoId: String, senderUid: String, image: UIImage, completion: @escaping (Result<Void, Error>) -> Void) {
-        uploadImageToFirebase(image: image) { result in
-            switch result {
-            case .success(let url):
-                let msg: [String: Any] = [
-                    "date": Date(),
-                    "sender": senderUid,
-                    "photoURL": url.absoluteString
-                ]
-                Firestore.firestore().collection("conversations").document(convoId).collection("messages").addDocument(data: msg) { err in
-                    if let err = err {
-                        print("error")
-                        completion(.failure(err))
-                    } else {
-                        print("ok")
-                        completion(.success(()))
-                    }
-                }
-            case .failure(let error):
-                completion(.failure(error))
-            }
-        }
-    }
-    
     func downloadImage(fromURL url: String, completion: @escaping (UIImage?) -> Void) {
         let storage = Storage.storage()
         let storageRef = storage.reference(forURL: url)
@@ -209,7 +244,27 @@ class FirebaseService{
             }
         }
     }
-
+    
+    func getChatPhoto(chatId: String, completion: @escaping (UIImage)->()){
+        db.collection("conversations").document(chatId).collection("messages").getDocuments { (snapshot, error) in
+            guard let messagesDocuments = snapshot?.documents else { return }
+            for document in messagesDocuments{
+                let data = document.data()
+                if let photoURL = data["photoURL"] as? String, let imageURL = URL(string: photoURL) {
+                    URLSession.shared.dataTask(with: imageURL) { (data, response, error) in
+                        if let data = data, let image = UIImage(data: data) {
+                            DispatchQueue.main.async {
+                                completion(image)
+                            }
+                        } else {
+                            print("Error downloading image: \(error.debugDescription)")
+                        }
+                    }.resume()
+                }
+            }
+        }
+    }
+    
 }
 
 

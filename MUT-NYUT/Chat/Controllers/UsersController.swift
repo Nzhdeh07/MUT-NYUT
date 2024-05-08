@@ -5,7 +5,7 @@ class UsersController: UIViewController {
     let api = FirebaseService.shared
     var usersTable = UITableView()
     var users: [User] = []
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title = "Chats"
@@ -14,7 +14,11 @@ class UsersController: UIViewController {
         usersTable.dataSource = self
         usersTable.register(UINib(nibName: String(describing: UsersTable.self),bundle: nil), forCellReuseIdentifier: String(describing: UsersTable.self) )
         view.addSubview(usersTable)
-        print(String(describing: UsersTable.self))
+        
+        let settingsImage = UIImage(systemName: "gear")
+        let settingsButton = UIBarButtonItem(title: "gear", image: settingsImage, target: self, action: #selector(openSettings))
+        settingsButton.tintColor = .label
+        navigationItem.rightBarButtonItem = settingsButton
         
         api.getAllUsers { newUsers in
             DispatchQueue.main.async {
@@ -22,12 +26,20 @@ class UsersController: UIViewController {
                 self.usersTable.reloadData()
             }
         }
+        
+    }
+    
+    @objc func openSettings(){
+        let storyboard = UIStoryboard(name: "Settings", bundle: nil)
+        if let view = storyboard.instantiateViewController(withIdentifier: "SettingsController") as? SettingsController {
+            navigationController?.pushViewController(view, animated: true)
+        }
     }
     
 }
 
 extension UsersController: UITableViewDelegate, UITableViewDataSource {
- 
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = usersTable.dequeueReusableCell(withIdentifier: String(describing: UsersTable.self), for: indexPath) as! UsersTable
         cell.config(user: users[indexPath.row])

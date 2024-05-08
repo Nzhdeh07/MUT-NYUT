@@ -3,26 +3,29 @@ import Foundation
 import FirebaseCore
 import FirebaseAuth
 import UserNotifications
+import LocalAuthentication
+import Security
+import CryptoKit
 
-class AuthViewController: UIViewController {
+
+class AuthViewController: UIViewController, UITextFieldDelegate {
     
     var Sing: UIView!
     var label: UILabel!
     
     var email: String!
-    var password: String!
+    var password: String! = ""
     
     var isSignupOnTop = true
     var signupView: SkewedRectangleViewRight!
     var loginView: SkewedRectangleViewLeft!
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         config()
         
-
-//        requestNotificationAuthorization()
-      }
+        //        requestNotificationAuthorization()
+    }
     
     @IBAction func Sign(_ sender: Any) {
         SingUpWithEmail(email: email, password: password){ success, message in
@@ -43,6 +46,8 @@ class AuthViewController: UIViewController {
                 let newVC = storyboard.instantiateViewController(withIdentifier: "UsersController") as! UsersController
                 self.navigationController?.setViewControllers([newVC], animated: true)
                 UserDefaults.standard.set(true, forKey: "isLogin")
+                UserDefaults.standard.set(self.password, forKey: "password")
+                UserDefaults.standard.set(self.email, forKey: "email")
             } else {
                 self.alert(title: "Ошибка входа", message: message, style: .alert)
             }
@@ -59,14 +64,57 @@ class AuthViewController: UIViewController {
             completion(true,(res?.user.email)!)
         }
     }
-
-    func signInWithEmail(email: String, password: String, completion: @escaping (Bool, String) -> Void) {
-        Auth.auth().signIn(withEmail: email, password: password) { (result, error) in
-            if let error = error {
-                completion(false, error.localizedDescription)
-            } else {
-                completion(true, "Вход успешно выполнен")
+    
+    func signInWithEmail(email: String, password: String = "", completion: @escaping (Bool, String) -> Void) {
+        if let userData = UserDefaults.standard.dictionary(forKey: email),
+           let email = userData["userEmail"] as? String,
+           let password = userData["userPassword"] as? String  {
+            Auth.auth().signIn(withEmail: email, password: password) { (result, error) in
+                if let error = error {
+                    completion(false, error.localizedDescription)
+                } else {
+                    completion(true, "Вход успешно выполнен")
+                }
             }
+            
+        } else {
+            Auth.auth().signIn(withEmail: email, password: password) { (result, error) in
+                if let error = error {
+                    completion(false, error.localizedDescription)
+                } else {
+                    completion(true, "Вход успешно выполнен")
+                }
+            }
+        }
+    }
+    
+    @objc func signInWithFaceID(){
+        let context = LAContext()
+        var error: NSError?
+        
+        if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
+            
+            let reason = "Идентифицируйте себя"
+            context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason ) { success, error in
+                
+                if success {
+                    DispatchQueue.main.async { [unowned self] in
+                        self.email = UserDefaults.standard.object(forKey: "email") as? String
+                        self.password = UserDefaults.standard.object(forKey: "password") as? String
+                        
+                        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                        let newVC = storyboard.instantiateViewController(withIdentifier: "UsersController") as! UsersController
+                        self.navigationController?.setViewControllers([newVC], animated: true)
+                        UserDefaults.standard.set(true, forKey: "isLogin")
+                        UserDefaults.standard.set(self.password, forKey: "password")
+                        UserDefaults.standard.set(self.email, forKey: "email")
+                    }
+                } else {
+                    self.alert(title: "Ошибка входа", message: "Ошибка входа", style: .alert)
+                }
+            }
+        } else {
+            print("Face/Touch ID не найден")
         }
     }
     
@@ -101,7 +149,7 @@ class AuthViewController: UIViewController {
         loginView.clipsToBounds = true
         Sing.addSubview(loginView)
         loginView.translatesAutoresizingMaskIntoConstraints = false
-
+        
         NSLayoutConstraint.activate([
             loginView.leadingAnchor.constraint(equalTo: Sing.leadingAnchor),
             loginView.trailingAnchor.constraint(equalTo: Sing.trailingAnchor),
@@ -136,14 +184,14 @@ class AuthViewController: UIViewController {
         signupView.clipsToBounds = true
         Sing.addSubview(signupView)
         signupView.translatesAutoresizingMaskIntoConstraints = false
-
+        
         NSLayoutConstraint.activate([
             signupView.leadingAnchor.constraint(equalTo: Sing.leadingAnchor),
             signupView.trailingAnchor.constraint(equalTo: Sing.trailingAnchor),
             signupView.topAnchor.constraint(equalTo: Sing.topAnchor),
             signupView.bottomAnchor.constraint(equalTo: Sing.bottomAnchor)
         ])
-
+        
         let button = createButton(title: "Login", action: #selector(LoginOnTop))
         signupView.addSubview(button)
         
@@ -171,7 +219,7 @@ class AuthViewController: UIViewController {
         stackView.spacing = 2
         stackView.translatesAutoresizingMaskIntoConstraints = false
         signupView.addSubview(stackView)
-
+        
         NSLayoutConstraint.activate([
             stackView.leadingAnchor.constraint(equalTo: signupView.leadingAnchor, constant: 20),
             stackView.trailingAnchor.constraint(equalTo: signupView.trailingAnchor, constant: -20),
@@ -180,19 +228,19 @@ class AuthViewController: UIViewController {
         
         let emailStack = createLoginFieldStackView(placeholder: "Enter email")
         stackView.addArrangedSubview(emailStack)
-
+        
         let passwordStack = createPasswordFieldStackView(placeholder: "Enter password")
         stackView.addArrangedSubview(passwordStack)
         
         let button = createButton(title: "Sing Up", action: #selector(Sign))
         button.setTitleColor(.black, for: .normal)
         signupView.addSubview(button)
-
+        
         NSLayoutConstraint.activate([
-          button.centerXAnchor.constraint(equalTo: loginView.centerXAnchor),
-          button.bottomAnchor.constraint(equalTo: loginView.bottomAnchor, constant: -30),
-          button.widthAnchor.constraint(equalToConstant: 100),
-          button.heightAnchor.constraint(equalToConstant: 30)
+            button.centerXAnchor.constraint(equalTo: loginView.centerXAnchor),
+            button.bottomAnchor.constraint(equalTo: loginView.bottomAnchor, constant: -30),
+            button.widthAnchor.constraint(equalToConstant: 100),
+            button.heightAnchor.constraint(equalToConstant: 30)
         ])
     }
     
@@ -202,7 +250,7 @@ class AuthViewController: UIViewController {
         stackView.spacing = 2
         stackView.translatesAutoresizingMaskIntoConstraints = false
         loginView.addSubview(stackView)
-
+        
         NSLayoutConstraint.activate([
             stackView.leadingAnchor.constraint(equalTo: loginView.leadingAnchor, constant: 20),
             stackView.trailingAnchor.constraint(equalTo: loginView.trailingAnchor, constant: -20),
@@ -211,19 +259,37 @@ class AuthViewController: UIViewController {
         
         let emailStack = createLoginFieldStackView(placeholder: "Enter email")
         stackView.addArrangedSubview(emailStack)
-
+        
         let passwordStack = createPasswordFieldStackView(placeholder: "Enter password")
         stackView.addArrangedSubview(passwordStack)
+        
+        
+        let faceIDButton = UIButton(type: .system)
+        if let image = UIImage(systemName: "faceid")?.withConfiguration(UIImage.SymbolConfiguration(pointSize: 30, weight: .regular)) {
+            faceIDButton.setImage(image, for: .normal)
+        }
+        faceIDButton.tintColor = .black
+        faceIDButton.addTarget(self, action: #selector(signInWithFaceID), for: .touchUpInside)
+        loginView.addSubview(faceIDButton)
+        
+        faceIDButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            faceIDButton.centerXAnchor.constraint(equalTo: loginView.centerXAnchor),
+            faceIDButton.bottomAnchor.constraint(equalTo: loginView.bottomAnchor, constant: -80),
+            faceIDButton.widthAnchor.constraint(equalToConstant: 100),
+            faceIDButton.heightAnchor.constraint(equalToConstant: 50)
+        ])
         
         let button = createButton(title: "Login", action: #selector(signIn))
         button.setTitleColor(.black, for: .normal)
         loginView.addSubview(button)
-
+        
         NSLayoutConstraint.activate([
-          button.centerXAnchor.constraint(equalTo: loginView.centerXAnchor),
-          button.bottomAnchor.constraint(equalTo: loginView.bottomAnchor, constant: -30),
-          button.widthAnchor.constraint(equalToConstant: 100),
-          button.heightAnchor.constraint(equalToConstant: 30)
+            button.centerXAnchor.constraint(equalTo: loginView.centerXAnchor),
+            button.bottomAnchor.constraint(equalTo: loginView.bottomAnchor, constant: -30),
+            button.widthAnchor.constraint(equalToConstant: 100),
+            button.heightAnchor.constraint(equalToConstant: 30)
         ])
         
     }
@@ -243,7 +309,7 @@ class AuthViewController: UIViewController {
         stackView.axis = .vertical
         stackView.spacing = 0
         stackView.translatesAutoresizingMaskIntoConstraints = false
-
+        
         
         let emailTextField = UITextField()
         emailTextField.heightAnchor.constraint(equalToConstant: 50).isActive = true
@@ -251,13 +317,14 @@ class AuthViewController: UIViewController {
         let attributedPlaceholder = NSAttributedString(string: placeholder, attributes: attributes)
         emailTextField.attributedPlaceholder = attributedPlaceholder
         emailTextField.addTarget(self, action: #selector(emailTextFieldDidChange(_:)), for: .editingChanged)
+        emailTextField.delegate = self
         stackView.addArrangedSubview(emailTextField)
-
+        
         let line = UIView()
         line.backgroundColor = .black
         line.heightAnchor.constraint(equalToConstant: 1).isActive = true
         stackView.addArrangedSubview(line)
-
+        
         return stackView
     }
     
@@ -266,20 +333,21 @@ class AuthViewController: UIViewController {
         stackView.axis = .vertical
         stackView.spacing = 0
         stackView.translatesAutoresizingMaskIntoConstraints = false
-
+        
         let passwordTextField = UITextField()
         passwordTextField.heightAnchor.constraint(equalToConstant: 50).isActive = true
         let attributes: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.black]
         let attributedPlaceholder = NSAttributedString(string: placeholder, attributes: attributes)
         passwordTextField.attributedPlaceholder = attributedPlaceholder
         passwordTextField.addTarget(self, action: #selector(passwordTextFieldDidChange(_:)), for: .editingChanged)
+        passwordTextField.delegate = self
         stackView.addArrangedSubview(passwordTextField)
-
+        
         let line = UIView()
         line.backgroundColor = .black
         line.heightAnchor.constraint(equalToConstant: 1).isActive = true
         stackView.addArrangedSubview(line)
-
+        
         return stackView
     }
     
@@ -289,6 +357,11 @@ class AuthViewController: UIViewController {
         }
     }
     
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
     @objc func passwordTextFieldDidChange(_ textField: UITextField) {
         if let text = textField.text {
             self.password = text
@@ -296,11 +369,11 @@ class AuthViewController: UIViewController {
     }
     
     @objc func SignupOnTop() {
-            Sing.bringSubviewToFront(signupView)
+        Sing.bringSubviewToFront(signupView)
     }
     
     @objc func LoginOnTop() {
-            Sing.bringSubviewToFront(loginView)
+        Sing.bringSubviewToFront(loginView)
     }
 }
 

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		241748C62BEA6544006985E6 /* PhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 241748C42BEA6544006985E6 /* PhotoCell.swift */; };
+		241748C72BEA6544006985E6 /* PhotoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 241748C52BEA6544006985E6 /* PhotoCell.xib */; };
 		248644412BDE3795007AB051 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 248644402BDE3795007AB051 /* AppDelegate.swift */; };
 		248644432BDE3795007AB051 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 248644422BDE3795007AB051 /* SceneDelegate.swift */; };
 		248644452BDE3795007AB051 /* UsersController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 248644442BDE3795007AB051 /* UsersController.swift */; };
@@ -28,9 +30,15 @@
 		2486447C2BDE3B5C007AB051 /* UsersTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 248644792BDE3B5C007AB051 /* UsersTable.swift */; };
 		2486447F2BDE3C8B007AB051 /* FirebaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2486447E2BDE3C8B007AB051 /* FirebaseService.swift */; };
 		24D5168A2BDE431900E39DE2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 24D516892BDE431900E39DE2 /* GoogleService-Info.plist */; };
+		24D5168C2BE0177E00E39DE2 /* PhotoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24D5168B2BE0177E00E39DE2 /* PhotoController.swift */; };
+		24D5168E2BE0310400E39DE2 /* Photo.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 24D5168D2BE0310400E39DE2 /* Photo.storyboard */; };
+		24E680A92BE0F707003F9D6C /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24E680A82BE0F707003F9D6C /* SettingsController.swift */; };
+		24E680AB2BE0F713003F9D6C /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 24E680AA2BE0F713003F9D6C /* Settings.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		241748C42BEA6544006985E6 /* PhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCell.swift; sourceTree = "<group>"; };
+		241748C52BEA6544006985E6 /* PhotoCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PhotoCell.xib; sourceTree = "<group>"; };
 		2486443D2BDE3795007AB051 /* MUT-NYUT.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MUT-NYUT.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		248644402BDE3795007AB051 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		248644422BDE3795007AB051 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -48,6 +56,10 @@
 		2486447A2BDE3B5C007AB051 /* UsersTable.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UsersTable.xib; sourceTree = "<group>"; };
 		2486447E2BDE3C8B007AB051 /* FirebaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseService.swift; sourceTree = "<group>"; };
 		24D516892BDE431900E39DE2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		24D5168B2BE0177E00E39DE2 /* PhotoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoController.swift; sourceTree = "<group>"; };
+		24D5168D2BE0310400E39DE2 /* Photo.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Photo.storyboard; sourceTree = "<group>"; };
+		24E680A82BE0F707003F9D6C /* SettingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
+		24E680AA2BE0F713003F9D6C /* Settings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +79,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		241748C32BEA6531006985E6 /* PhotoCell */ = {
+			isa = PBXGroup;
+			children = (
+				241748C42BEA6544006985E6 /* PhotoCell.swift */,
+				241748C52BEA6544006985E6 /* PhotoCell.xib */,
+			);
+			path = PhotoCell;
+			sourceTree = "<group>";
+		};
 		248644342BDE3795007AB051 = {
 			isa = PBXGroup;
 			children = (
@@ -155,7 +176,6 @@
 				248644702BDE3A53007AB051 /* Controllers */,
 				248644772BDE3AFD007AB051 /* View */,
 				248644732BDE3A85007AB051 /* model */,
-				248644462BDE3795007AB051 /* Main.storyboard */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -165,6 +185,8 @@
 			children = (
 				248644442BDE3795007AB051 /* UsersController.swift */,
 				248644712BDE3A7D007AB051 /* ChatController.swift */,
+				24D5168B2BE0177E00E39DE2 /* PhotoController.swift */,
+				24E680A82BE0F707003F9D6C /* SettingsController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -180,6 +202,10 @@
 		248644772BDE3AFD007AB051 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				248644462BDE3795007AB051 /* Main.storyboard */,
+				24D5168D2BE0310400E39DE2 /* Photo.storyboard */,
+				24E680AA2BE0F713003F9D6C /* Settings.storyboard */,
+				241748C32BEA6531006985E6 /* PhotoCell */,
 				248644782BDE3B03007AB051 /* UsersTableCell */,
 			);
 			path = View;
@@ -272,10 +298,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				24D5168E2BE0310400E39DE2 /* Photo.storyboard in Resources */,
 				2486447B2BDE3B5C007AB051 /* UsersTable.xib in Resources */,
 				2486446E2BDE39D9007AB051 /* Auth.storyboard in Resources */,
+				24E680AB2BE0F713003F9D6C /* Settings.storyboard in Resources */,
 				2486444A2BDE3796007AB051 /* Assets.xcassets in Resources */,
 				2486444D2BDE3796007AB051 /* Base in Resources */,
+				241748C72BEA6544006985E6 /* PhotoCell.xib in Resources */,
 				248644482BDE3795007AB051 /* Base in Resources */,
 				24D5168A2BDE431900E39DE2 /* GoogleService-Info.plist in Resources */,
 			);
@@ -288,10 +317,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				24D5168C2BE0177E00E39DE2 /* PhotoController.swift in Sources */,
 				248644752BDE3A93007AB051 /* models.swift in Sources */,
 				2486446C2BDE39BA007AB051 /* Auth.swift in Sources */,
 				248644452BDE3795007AB051 /* UsersController.swift in Sources */,
+				241748C62BEA6544006985E6 /* PhotoCell.swift in Sources */,
 				248644412BDE3795007AB051 /* AppDelegate.swift in Sources */,
+				24E680A92BE0F707003F9D6C /* SettingsController.swift in Sources */,
 				2486447F2BDE3C8B007AB051 /* FirebaseService.swift in Sources */,
 				248644432BDE3795007AB051 /* SceneDelegate.swift in Sources */,
 				2486447C2BDE3B5C007AB051 /* UsersTable.swift in Sources */,
@@ -456,6 +488,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -484,6 +517,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
