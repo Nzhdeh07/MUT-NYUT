@@ -23,9 +23,32 @@ class AuthViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         config()
-        
-        //        requestNotificationAuthorization()
+        requestNotificationAuthorization()
     }
+    
+    func requestNotificationAuthorization() {
+          UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
+              if !granted {
+                  print("Не удалось получить разрешения на уведомления: \(error?.localizedDescription ?? "")")
+              }
+          }
+      }
+    
+    func scheduleNotification(body: String) {
+              let content = UNMutableNotificationContent()
+              content.title = "Напоминание"
+              content.body = body
+              let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 10, repeats: false)
+              let request = UNNotificationRequest(identifier: "notification", content: content, trigger: trigger)
+              UNUserNotificationCenter.current().add(request) { (error) in
+                  if let error = error {
+                      print("Ошибка при добавлении запроса на уведомление: \(error.localizedDescription)")
+                  }
+              }
+          }
+    
+    
+
     
     @IBAction func Sign(_ sender: Any) {
         SingUpWithEmail(email: email, password: password){ success, message in

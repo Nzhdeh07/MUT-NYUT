@@ -48,7 +48,7 @@ class SettingsController: UIViewController, UITextFieldDelegate {
         UserDefaults.standard.set(false, forKey: "isLogin")
         let storyboard = UIStoryboard(name: "Auth", bundle: nil)
         if let view = storyboard.instantiateViewController(withIdentifier: "AuthViewController") as? AuthViewController {
-            navigationController?.pushViewController(view, animated: true)
+            navigationController?.setViewControllers([view], animated: true)
         }
     }
     

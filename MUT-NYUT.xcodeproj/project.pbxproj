@@ -29,6 +29,7 @@
 		2486447B2BDE3B5C007AB051 /* UsersTable.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2486447A2BDE3B5C007AB051 /* UsersTable.xib */; };
 		2486447C2BDE3B5C007AB051 /* UsersTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 248644792BDE3B5C007AB051 /* UsersTable.swift */; };
 		2486447F2BDE3C8B007AB051 /* FirebaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2486447E2BDE3C8B007AB051 /* FirebaseService.swift */; };
+		249184E12BFFDAAE00D04947 /* CoreService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 249184E02BFFDAAE00D04947 /* CoreService.swift */; };
 		24D5168A2BDE431900E39DE2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 24D516892BDE431900E39DE2 /* GoogleService-Info.plist */; };
 		24D5168C2BE0177E00E39DE2 /* PhotoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24D5168B2BE0177E00E39DE2 /* PhotoController.swift */; };
 		24D5168E2BE0310400E39DE2 /* Photo.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 24D5168D2BE0310400E39DE2 /* Photo.storyboard */; };
@@ -55,6 +56,7 @@
 		248644792BDE3B5C007AB051 /* UsersTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersTable.swift; sourceTree = "<group>"; };
 		2486447A2BDE3B5C007AB051 /* UsersTable.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UsersTable.xib; sourceTree = "<group>"; };
 		2486447E2BDE3C8B007AB051 /* FirebaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseService.swift; sourceTree = "<group>"; };
+		249184E02BFFDAAE00D04947 /* CoreService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreService.swift; sourceTree = "<group>"; };
 		24D516892BDE431900E39DE2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		24D5168B2BE0177E00E39DE2 /* PhotoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoController.swift; sourceTree = "<group>"; };
 		24D5168D2BE0310400E39DE2 /* Photo.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Photo.storyboard; sourceTree = "<group>"; };
@@ -132,6 +134,7 @@
 		248644632BDE38E2007AB051 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				249184E02BFFDAAE00D04947 /* CoreService.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -323,6 +326,7 @@
 				248644452BDE3795007AB051 /* UsersController.swift in Sources */,
 				241748C62BEA6544006985E6 /* PhotoCell.swift in Sources */,
 				248644412BDE3795007AB051 /* AppDelegate.swift in Sources */,
+				249184E12BFFDAAE00D04947 /* CoreService.swift in Sources */,
 				24E680A92BE0F707003F9D6C /* SettingsController.swift in Sources */,
 				2486447F2BDE3C8B007AB051 /* FirebaseService.swift in Sources */,
 				248644432BDE3795007AB051 /* SceneDelegate.swift in Sources */,
@@ -483,11 +487,12 @@
 				DEVELOPMENT_TEAM = CHHLJ7BQM4;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "MUT-NYUT/Info.plist";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Write Photo";
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "Подтвердите личность";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -512,11 +517,12 @@
 				DEVELOPMENT_TEAM = CHHLJ7BQM4;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "MUT-NYUT/Info.plist";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Write Photo";
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "Подтвердите личность";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

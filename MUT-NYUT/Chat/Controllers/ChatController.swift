@@ -45,7 +45,6 @@ class ChatViewController: MessagesViewController {
         }
         let galleryImage = UIImage(systemName: "photo")
         let galleryButton = UIBarButtonItem(title: "photo", image: galleryImage, target: self, action: #selector(openGallery))
-        // Устанавливаем кнопку в правом верхнем углу навигационного бара
         navigationItem.rightBarButtonItem = galleryButton
         
         messageInputBar.leftStackView.alignment = .center

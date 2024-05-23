@@ -53,11 +53,10 @@ class FirebaseService{
                         let data = doc.data()
                         let userId = doc.documentID
                         guard let email = data["email"] as? String else {continue}
-                        if let photoURL = data["photoURL"] as? String {
-                            users.append(User(senderId: userId, email: email, profileImageURL: photoURL))
-                            continue
-                        }
-                        users.append(User(senderId: userId, email: email))
+                        let displayName = data["name"] as? String ?? email
+                        let messageColor = data["messageColor"] as? String
+                        let photoURL = data["photoURL"] as? String
+                        users.append(User(senderId: userId, email: displayName, displayName: displayName, profileImageURL: photoURL, messageColor: messageColor))
                     }
                 }
                 completion(users)
@@ -142,7 +141,6 @@ class FirebaseService{
                         }
                     }
                 }
-                //
             } else {
                 let msg: [String: Any] = [
                     "date": Date(),
@@ -260,6 +258,43 @@ class FirebaseService{
                             print("Error downloading image: \(error.debugDescription)")
                         }
                     }.resume()
+                }
+            }
+        }
+    }
+    
+    func listenForUserMessagesInBackground() {
+        let db = Firestore.firestore()
+        db.collection("conversations").getDocuments { (snapshot, error) in
+            if let error = error {
+                print("Ошибка при получении снимка данных: \(error.localizedDescription)")
+                return
+            }
+            
+            guard let snapshot = snapshot else {
+                print("Снимок данных отсутствует")
+                return
+            }
+            
+            for document in snapshot.documents {
+                let conversationId = document.documentID
+                let messagesRef = db.collection("conversations/\(conversationId)/messages")
+                
+                messagesRef.order(by: "date", descending: false).addSnapshotListener { (messagesSnapshot, messagesError) in
+                    guard let messagesSnapshot = messagesSnapshot else {
+                        print("Ошибка при получении снимка данных о сообщениях: \(messagesError?.localizedDescription ?? "Unknown error")")
+                        return
+                    }
+                    
+                    for change in messagesSnapshot.documentChanges {
+                        let doc = change.document
+                        let data = doc.data()
+                        if let text = data["text"] as? String {
+                            scheduleNotification(text: text)
+                        } else if data["photoURL"] is String {
+                            scheduleNotification(text: "Вы получили фотографию")
+                        }
+                    }
                 }
             }
         }
