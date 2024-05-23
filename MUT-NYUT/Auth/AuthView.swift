@@ -7,15 +7,18 @@ import LocalAuthentication
 import Security
 import CryptoKit
 
+protocol AuthViewProtocol: AnyObject {
+    func showError(_ message: String)
+}
 
-class AuthViewController: UIViewController, UITextFieldDelegate {
+
+class AuthViewController: UIViewController, AuthViewProtocol, UITextFieldDelegate {
     
+    var presenter: AuthPresenterProtocol?
     var Sing: UIView!
     var label: UILabel!
-    
     var email: String!
     var password: String! = ""
-    
     var isSignupOnTop = true
     var signupView: SkewedRectangleViewRight!
     var loginView: SkewedRectangleViewLeft!
@@ -27,119 +30,30 @@ class AuthViewController: UIViewController, UITextFieldDelegate {
     }
     
     func requestNotificationAuthorization() {
-          UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
-              if !granted {
-                  print("Не удалось получить разрешения на уведомления: \(error?.localizedDescription ?? "")")
-              }
-          }
-      }
-    
-    func scheduleNotification(body: String) {
-              let content = UNMutableNotificationContent()
-              content.title = "Напоминание"
-              content.body = body
-              let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 10, repeats: false)
-              let request = UNNotificationRequest(identifier: "notification", content: content, trigger: trigger)
-              UNUserNotificationCenter.current().add(request) { (error) in
-                  if let error = error {
-                      print("Ошибка при добавлении запроса на уведомление: \(error.localizedDescription)")
-                  }
-              }
-          }
-    
-    
-
-    
-    @IBAction func Sign(_ sender: Any) {
-        SingUpWithEmail(email: email, password: password){ success, message in
-            if success {
-                let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                let newVC = storyboard.instantiateViewController(withIdentifier: "UsersController") as! UsersController
-                self.navigationController?.setViewControllers([newVC], animated: true)
-            } else {
-                self.alert(title: "Ошибка регистрации", message: message, style: .alert)
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
+            if !granted {
+                print("Не удалось получить разрешения на уведомления: \(error?.localizedDescription ?? "")")
             }
         }
+    }
+    
+    
+    @IBAction func Sign(_ sender: Any) {
+        presenter?.signUp(withEmail: email, password: password)
     }
     
     @IBAction func signIn(_ sender: Any) {
-        signInWithEmail(email: email, password: password) { success, message in
-            if success {
-                let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                let newVC = storyboard.instantiateViewController(withIdentifier: "UsersController") as! UsersController
-                self.navigationController?.setViewControllers([newVC], animated: true)
-                UserDefaults.standard.set(true, forKey: "isLogin")
-                UserDefaults.standard.set(self.password, forKey: "password")
-                UserDefaults.standard.set(self.email, forKey: "email")
-            } else {
-                self.alert(title: "Ошибка входа", message: message, style: .alert)
-            }
-            
-        }
-    }
-    
-    func SingUpWithEmail(email: String, password: String, completion: @escaping(Bool, String)->Void){
-        Auth.auth().createUser(withEmail: email, password: password){(res, err) in
-            if err != nil{
-                completion(false,(err?.localizedDescription)!)
-                return
-            }
-            completion(true,(res?.user.email)!)
-        }
-    }
-    
-    func signInWithEmail(email: String, password: String = "", completion: @escaping (Bool, String) -> Void) {
-        if let userData = UserDefaults.standard.dictionary(forKey: email),
-           let email = userData["userEmail"] as? String,
-           let password = userData["userPassword"] as? String  {
-            Auth.auth().signIn(withEmail: email, password: password) { (result, error) in
-                if let error = error {
-                    completion(false, error.localizedDescription)
-                } else {
-                    completion(true, "Вход успешно выполнен")
-                }
-            }
-            
-        } else {
-            Auth.auth().signIn(withEmail: email, password: password) { (result, error) in
-                if let error = error {
-                    completion(false, error.localizedDescription)
-                } else {
-                    completion(true, "Вход успешно выполнен")
-                }
-            }
-        }
+        presenter?.signIn(withEmail: email, password: password)
     }
     
     @objc func signInWithFaceID(){
-        let context = LAContext()
-        var error: NSError?
-        
-        if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
-            
-            let reason = "Идентифицируйте себя"
-            context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason ) { success, error in
-                
-                if success {
-                    DispatchQueue.main.async { [unowned self] in
-                        self.email = UserDefaults.standard.object(forKey: "email") as? String
-                        self.password = UserDefaults.standard.object(forKey: "password") as? String
-                        
-                        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                        let newVC = storyboard.instantiateViewController(withIdentifier: "UsersController") as! UsersController
-                        self.navigationController?.setViewControllers([newVC], animated: true)
-                        UserDefaults.standard.set(true, forKey: "isLogin")
-                        UserDefaults.standard.set(self.password, forKey: "password")
-                        UserDefaults.standard.set(self.email, forKey: "email")
-                    }
-                } else {
-                    self.alert(title: "Ошибка входа", message: "Ошибка входа", style: .alert)
-                }
-            }
-        } else {
-            print("Face/Touch ID не найден")
-        }
+        presenter?.signInWithFaceID()
     }
+    
+    func showError(_ message: String) {
+        alert(title: "Ошибка", message: message, style: .alert)
+    }
+    
     
     func config(){
         let safeArea = view.safeAreaLayoutGuide.layoutFrame

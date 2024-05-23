@@ -22,7 +22,7 @@
 		2486445F2BDE3893007AB051 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 2486445E2BDE3893007AB051 /* FirebaseFirestore */; };
 		248644612BDE3893007AB051 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 248644602BDE3893007AB051 /* FirebaseStorage */; };
 		2486446A2BDE396B007AB051 /* Render.swift in Sources */ = {isa = PBXBuildFile; fileRef = 248644692BDE396B007AB051 /* Render.swift */; };
-		2486446C2BDE39BA007AB051 /* Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2486446B2BDE39BA007AB051 /* Auth.swift */; };
+		2486446C2BDE39BA007AB051 /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2486446B2BDE39BA007AB051 /* AuthView.swift */; };
 		2486446E2BDE39D9007AB051 /* Auth.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2486446D2BDE39D9007AB051 /* Auth.storyboard */; };
 		248644722BDE3A7D007AB051 /* ChatController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 248644712BDE3A7D007AB051 /* ChatController.swift */; };
 		248644752BDE3A93007AB051 /* models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 248644742BDE3A93007AB051 /* models.swift */; };
@@ -30,6 +30,10 @@
 		2486447C2BDE3B5C007AB051 /* UsersTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 248644792BDE3B5C007AB051 /* UsersTable.swift */; };
 		2486447F2BDE3C8B007AB051 /* FirebaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2486447E2BDE3C8B007AB051 /* FirebaseService.swift */; };
 		249184E12BFFDAAE00D04947 /* CoreService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 249184E02BFFDAAE00D04947 /* CoreService.swift */; };
+		249184E32BFFE08600D04947 /* AuthInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 249184E22BFFE08600D04947 /* AuthInteractor.swift */; };
+		249184E52BFFE0A800D04947 /* AuthPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 249184E42BFFE0A800D04947 /* AuthPresenter.swift */; };
+		249184E72BFFE0C600D04947 /* AuthRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 249184E62BFFE0C600D04947 /* AuthRouter.swift */; };
+		249184E92BFFE0D600D04947 /* AuthModuleBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 249184E82BFFE0D600D04947 /* AuthModuleBuilder.swift */; };
 		24D5168A2BDE431900E39DE2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 24D516892BDE431900E39DE2 /* GoogleService-Info.plist */; };
 		24D5168C2BE0177E00E39DE2 /* PhotoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24D5168B2BE0177E00E39DE2 /* PhotoController.swift */; };
 		24D5168E2BE0310400E39DE2 /* Photo.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 24D5168D2BE0310400E39DE2 /* Photo.storyboard */; };
@@ -49,7 +53,7 @@
 		2486444C2BDE3796007AB051 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2486444E2BDE3796007AB051 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		248644692BDE396B007AB051 /* Render.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Render.swift; sourceTree = "<group>"; };
-		2486446B2BDE39BA007AB051 /* Auth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Auth.swift; sourceTree = "<group>"; };
+		2486446B2BDE39BA007AB051 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
 		2486446D2BDE39D9007AB051 /* Auth.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Auth.storyboard; sourceTree = "<group>"; };
 		248644712BDE3A7D007AB051 /* ChatController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatController.swift; sourceTree = "<group>"; };
 		248644742BDE3A93007AB051 /* models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = models.swift; path = ../../../../../../models.swift; sourceTree = "<group>"; };
@@ -57,6 +61,10 @@
 		2486447A2BDE3B5C007AB051 /* UsersTable.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UsersTable.xib; sourceTree = "<group>"; };
 		2486447E2BDE3C8B007AB051 /* FirebaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseService.swift; sourceTree = "<group>"; };
 		249184E02BFFDAAE00D04947 /* CoreService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreService.swift; sourceTree = "<group>"; };
+		249184E22BFFE08600D04947 /* AuthInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthInteractor.swift; sourceTree = "<group>"; };
+		249184E42BFFE0A800D04947 /* AuthPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthPresenter.swift; sourceTree = "<group>"; };
+		249184E62BFFE0C600D04947 /* AuthRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRouter.swift; sourceTree = "<group>"; };
+		249184E82BFFE0D600D04947 /* AuthModuleBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthModuleBuilder.swift; sourceTree = "<group>"; };
 		24D516892BDE431900E39DE2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		24D5168B2BE0177E00E39DE2 /* PhotoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoController.swift; sourceTree = "<group>"; };
 		24D5168D2BE0310400E39DE2 /* Photo.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Photo.storyboard; sourceTree = "<group>"; };
@@ -142,27 +150,15 @@
 		248644642BDE38F4007AB051 /* Auth */ = {
 			isa = PBXGroup;
 			children = (
-				248644662BDE390A007AB051 /* Controllers */,
-				248644652BDE38FF007AB051 /* View */,
+				2486446B2BDE39BA007AB051 /* AuthView.swift */,
+				249184E42BFFE0A800D04947 /* AuthPresenter.swift */,
+				249184E22BFFE08600D04947 /* AuthInteractor.swift */,
+				249184E62BFFE0C600D04947 /* AuthRouter.swift */,
+				249184E82BFFE0D600D04947 /* AuthModuleBuilder.swift */,
+				2486446D2BDE39D9007AB051 /* Auth.storyboard */,
 				248644682BDE3960007AB051 /* Other */,
 			);
 			path = Auth;
-			sourceTree = "<group>";
-		};
-		248644652BDE38FF007AB051 /* View */ = {
-			isa = PBXGroup;
-			children = (
-				2486446D2BDE39D9007AB051 /* Auth.storyboard */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
-		248644662BDE390A007AB051 /* Controllers */ = {
-			isa = PBXGroup;
-			children = (
-				2486446B2BDE39BA007AB051 /* Auth.swift */,
-			);
-			path = Controllers;
 			sourceTree = "<group>";
 		};
 		248644682BDE3960007AB051 /* Other */ = {
@@ -322,16 +318,20 @@
 			files = (
 				24D5168C2BE0177E00E39DE2 /* PhotoController.swift in Sources */,
 				248644752BDE3A93007AB051 /* models.swift in Sources */,
-				2486446C2BDE39BA007AB051 /* Auth.swift in Sources */,
+				249184E92BFFE0D600D04947 /* AuthModuleBuilder.swift in Sources */,
+				249184E32BFFE08600D04947 /* AuthInteractor.swift in Sources */,
+				2486446C2BDE39BA007AB051 /* AuthView.swift in Sources */,
 				248644452BDE3795007AB051 /* UsersController.swift in Sources */,
 				241748C62BEA6544006985E6 /* PhotoCell.swift in Sources */,
 				248644412BDE3795007AB051 /* AppDelegate.swift in Sources */,
 				249184E12BFFDAAE00D04947 /* CoreService.swift in Sources */,
 				24E680A92BE0F707003F9D6C /* SettingsController.swift in Sources */,
 				2486447F2BDE3C8B007AB051 /* FirebaseService.swift in Sources */,
+				249184E52BFFE0A800D04947 /* AuthPresenter.swift in Sources */,
 				248644432BDE3795007AB051 /* SceneDelegate.swift in Sources */,
 				2486447C2BDE3B5C007AB051 /* UsersTable.swift in Sources */,
 				2486446A2BDE396B007AB051 /* Render.swift in Sources */,
+				249184E72BFFE0C600D04947 /* AuthRouter.swift in Sources */,
 				248644722BDE3A7D007AB051 /* ChatController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

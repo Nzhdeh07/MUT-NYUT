@@ -16,20 +16,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         } else {
             loginPage()
         }
-        
-        
     }
     
     func loginPage(){
-        let storyboard = UIStoryboard(name: "Auth", bundle: nil)
-        if let view = storyboard.instantiateViewController(withIdentifier: "AuthViewController") as? AuthViewController {
-            self.navigationController.pushViewController(view, animated: true)
-        }
+        let authVC = AuthModuleBuilder.build()
+        self.navigationController.pushViewController(authVC, animated: true)
     }
+    
     
     func mainPage(){
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        
         if let view = storyboard.instantiateViewController(withIdentifier: "UsersController") as? UsersController {
             self.navigationController.pushViewController(view, animated: true)
         }
