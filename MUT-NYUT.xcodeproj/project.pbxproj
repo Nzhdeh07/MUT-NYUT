@@ -16,7 +16,6 @@
 		2486444A2BDE3796007AB051 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 248644492BDE3796007AB051 /* Assets.xcassets */; };
 		2486444D2BDE3796007AB051 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 2486444C2BDE3796007AB051 /* Base */; };
 		248644562BDE3858007AB051 /* MessageKit in Frameworks */ = {isa = PBXBuildFile; productRef = 248644552BDE3858007AB051 /* MessageKit */; };
-		248644592BDE3893007AB051 /* FirebaseAppCheck in Frameworks */ = {isa = PBXBuildFile; productRef = 248644582BDE3893007AB051 /* FirebaseAppCheck */; };
 		2486445B2BDE3893007AB051 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 2486445A2BDE3893007AB051 /* FirebaseAuth */; };
 		2486445D2BDE3893007AB051 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 2486445C2BDE3893007AB051 /* FirebaseDatabase */; };
 		2486445F2BDE3893007AB051 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 2486445E2BDE3893007AB051 /* FirebaseFirestore */; };
@@ -34,6 +33,7 @@
 		249184E52BFFE0A800D04947 /* AuthPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 249184E42BFFE0A800D04947 /* AuthPresenter.swift */; };
 		249184E72BFFE0C600D04947 /* AuthRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 249184E62BFFE0C600D04947 /* AuthRouter.swift */; };
 		249184E92BFFE0D600D04947 /* AuthModuleBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 249184E82BFFE0D600D04947 /* AuthModuleBuilder.swift */; };
+		24D21A332C02251B000340E6 /* FirebaseAppCheck in Frameworks */ = {isa = PBXBuildFile; productRef = 24D21A322C02251B000340E6 /* FirebaseAppCheck */; };
 		24D5168A2BDE431900E39DE2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 24D516892BDE431900E39DE2 /* GoogleService-Info.plist */; };
 		24D5168C2BE0177E00E39DE2 /* PhotoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24D5168B2BE0177E00E39DE2 /* PhotoController.swift */; };
 		24D5168E2BE0310400E39DE2 /* Photo.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 24D5168D2BE0310400E39DE2 /* Photo.storyboard */; };
@@ -77,11 +77,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				248644592BDE3893007AB051 /* FirebaseAppCheck in Frameworks */,
 				2486445B2BDE3893007AB051 /* FirebaseAuth in Frameworks */,
 				2486445D2BDE3893007AB051 /* FirebaseDatabase in Frameworks */,
 				2486445F2BDE3893007AB051 /* FirebaseFirestore in Frameworks */,
 				248644562BDE3858007AB051 /* MessageKit in Frameworks */,
+				24D21A332C02251B000340E6 /* FirebaseAppCheck in Frameworks */,
 				248644612BDE3893007AB051 /* FirebaseStorage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -245,11 +245,11 @@
 			name = "MUT-NYUT";
 			packageProductDependencies = (
 				248644552BDE3858007AB051 /* MessageKit */,
-				248644582BDE3893007AB051 /* FirebaseAppCheck */,
 				2486445A2BDE3893007AB051 /* FirebaseAuth */,
 				2486445C2BDE3893007AB051 /* FirebaseDatabase */,
 				2486445E2BDE3893007AB051 /* FirebaseFirestore */,
 				248644602BDE3893007AB051 /* FirebaseStorage */,
+				24D21A322C02251B000340E6 /* FirebaseAppCheck */,
 			);
 			productName = "MUT-NYUT";
 			productReference = 2486443D2BDE3795007AB051 /* MUT-NYUT.app */;
@@ -585,11 +585,6 @@
 			package = 248644542BDE3858007AB051 /* XCRemoteSwiftPackageReference "MessageKit" */;
 			productName = MessageKit;
 		};
-		248644582BDE3893007AB051 /* FirebaseAppCheck */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 248644572BDE3893007AB051 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseAppCheck;
-		};
 		2486445A2BDE3893007AB051 /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 248644572BDE3893007AB051 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
@@ -609,6 +604,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 248644572BDE3893007AB051 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseStorage;
+		};
+		24D21A322C02251B000340E6 /* FirebaseAppCheck */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 248644572BDE3893007AB051 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAppCheck;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

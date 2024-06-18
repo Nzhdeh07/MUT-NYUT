@@ -51,7 +51,7 @@ class AuthViewController: UIViewController, AuthViewProtocol, UITextFieldDelegat
     }
     
     func showError(_ message: String) {
-        alert(title: "Ошибка", message: message, style: .alert)
+        AlertHelper.showAlert(on: self, title: "Ошибка", message: message)
     }
     
     
@@ -69,15 +69,6 @@ class AuthViewController: UIViewController, AuthViewProtocol, UITextFieldDelegat
         setupSignupView()
         setupStackView()
         setupLoginStackView()
-    }
-    
-    func alert(title: String, message: String, style: UIAlertController.Style){
-        let alertController =  UIAlertController(title: title, message: message, preferredStyle: style)
-        let action = UIAlertAction(title: "ok", style: .default){ (action) in
-        }
-        
-        alertController.addAction(action)
-        self.present(alertController, animated: true, completion: nil)
     }
     
     private func setupLoginView() {
@@ -114,7 +105,6 @@ class AuthViewController: UIViewController, AuthViewProtocol, UITextFieldDelegat
             button2.heightAnchor.constraint(equalToConstant: 30)
         ])
     }
-    
     private func setupSignupView() {
         signupView = SkewedRectangleViewRight()
         signupView.backgroundColor = .clear
@@ -149,7 +139,6 @@ class AuthViewController: UIViewController, AuthViewProtocol, UITextFieldDelegat
             button2.heightAnchor.constraint(equalToConstant: 30)
         ])
     }
-    
     private func setupStackView() {
         let stackView = UIStackView()
         stackView.axis = .vertical
@@ -180,7 +169,6 @@ class AuthViewController: UIViewController, AuthViewProtocol, UITextFieldDelegat
             button.heightAnchor.constraint(equalToConstant: 30)
         ])
     }
-    
     private func setupLoginStackView() {
         let stackView = UIStackView()
         stackView.axis = .vertical
@@ -240,7 +228,6 @@ class AuthViewController: UIViewController, AuthViewProtocol, UITextFieldDelegat
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }
-    
     func createLoginFieldStackView(placeholder: String) -> UIStackView {
         let stackView = UIStackView()
         stackView.axis = .vertical
@@ -264,7 +251,6 @@ class AuthViewController: UIViewController, AuthViewProtocol, UITextFieldDelegat
         
         return stackView
     }
-    
     func createPasswordFieldStackView(placeholder: String) -> UIStackView {
         let stackView = UIStackView()
         stackView.axis = .vertical
@@ -293,22 +279,20 @@ class AuthViewController: UIViewController, AuthViewProtocol, UITextFieldDelegat
             self.email = text
         }
     }
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
-    }
-    
     @objc func passwordTextFieldDidChange(_ textField: UITextField) {
         if let text = textField.text {
             self.password = text
         }
     }
     
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
     @objc func SignupOnTop() {
         Sing.bringSubviewToFront(signupView)
     }
-    
     @objc func LoginOnTop() {
         Sing.bringSubviewToFront(loginView)
     }

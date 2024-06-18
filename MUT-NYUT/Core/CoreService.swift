@@ -1,5 +1,18 @@
 import Foundation
+import LocalAuthentication
+import UIKit
 import UserNotifications
+
+
+
+class AlertHelper {
+    static func showAlert(on viewController: UIViewController, title: String, message: String, style: UIAlertController.Style = .alert) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: style)
+        let action = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alertController.addAction(action)
+        viewController.present(alertController, animated: true, completion: nil)
+    }
+}
 
 
 func scheduleNotification(text: String) {
@@ -14,3 +27,8 @@ func scheduleNotification(text: String) {
              }
          }
      }
+
+
+
+
+

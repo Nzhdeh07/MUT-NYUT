@@ -22,7 +22,7 @@ class AuthPresenter: AuthPresenterProtocol {
     }
     
     func signInWithFaceID() {
-        interactor?.signInWithFaceID()
+        interactor?.signInWithBiometrics()
     }
     
     func signUpSucceeded() {
